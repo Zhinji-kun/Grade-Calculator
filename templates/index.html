@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Grade Calculator</h1>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="calculator-box">
+            <h2>Enter Your Grades</h2>
+            <form action="/" method="post" autocomplete="off">
+                <label for="prelim_grade">Prelim Grade:</label>
+                <input type="text" id="prelim_grade" name="prelim" placeholder="e.g. 85" autocomplete="off">
+                <button type="submit">Calculate</button>
+            </form>            
+
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+
+            {% if prelim_grade is not none %}
+                <p class="result">Prelim Grade: {{ prelim_grade }}</p>
+            {% endif %}
+
+            {% if is_pass_possible %}
+                {% if required_midterm is not none and required_final is not none %}
+                    <p class="result">You need at least <strong>{{ required_midterm | round(2) }}</strong> in Midterm and <strong>{{ required_final | round(2) }}</strong> in Finals to pass.</p>
+                {% endif %}
+            {% else %}
+                <p class="result">Unfortunately, it's difficult to pass the subject with the current Prelim grade.</p>
+            {% endif %}
+
+            {% if is_deans_lister_possible %}
+                <p class="deans-lister">You are qualified for Dean's Lister.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; Rai Tamondong's Grade Calculator</p>
+    </div>
+</body>
+</html>
